@@ -26,5 +26,12 @@ namespace EFwebapi.Controllers
         {
             return Ok(characters.FirstOrDefault(character => character.Id == id));
         }
+
+        [HttpPost]
+        public IActionResult AddCharacter(Character newCharacter)
+        {
+            characters.Add(newCharacter);
+            return Ok(characters);
+        }
     }
 }
