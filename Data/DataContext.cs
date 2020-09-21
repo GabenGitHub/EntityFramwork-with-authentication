@@ -1,7 +1,12 @@
+using EFwebapi.Models;
+using Microsoft.EntityFrameworkCore;
+
 namespace EFwebapi.Data
 {
-    public class DataContext
+    public class DataContext : DbContext
     {
-        
+        public DataContext(DbContextOptions<DataContext> options) : base(options) { }
+
+        public DbSet<Character> Characters { get; set; }
     }
 }
