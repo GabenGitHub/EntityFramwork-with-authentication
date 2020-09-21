@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using EFwebapi.Services.CharacterService;
 using System.Threading.Tasks;
+using EFwebapi.Dtos.Character;
 
 namespace EFwebapi.Controllers
 {
@@ -32,7 +33,7 @@ namespace EFwebapi.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddCharacter(Character newCharacter)
+        public async Task<IActionResult> AddCharacter(AddCharacterDto newCharacter)
         {
             return Ok(await _characterService.AddCharacter(newCharacter));
         }
