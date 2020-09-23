@@ -20,16 +20,31 @@ namespace EFwebapi.Data
 
         public async Task<ServiceResponse<int>> Regiter(User user, string password)
         {
+            ServiceResponse<int> response = new ServiceResponse<int>();
+            if (await UserExists(user.Username))
+            {
+                response.Success = false;
+                response.Message = "User already exists.";
+                return response;
+            }
+            CreatePasswordHash(password, out byte[] passwordHash, out byte[] passwordSalt);
+
+            user.PasswordHash = passwordHash;
+            user.PasswordSalt = passwordSalt;
+
             await _context.Users.AddAsync(user);
             await _context.SaveChangesAsync();
-            ServiceResponse<int> response = new ServiceResponse<int>();
             response.Data = user.Id;
             return response;
         }
 
-        public Task<bool> UserExists(string username)
+        public async Task<bool> UserExists(string username)
         {
-            throw new System.NotImplementedException();
+            if (await _context.Users.AnyAsync(x => x.Username.ToLower() == username.ToLower()))
+            {
+                return true;
+            }
+            return false;
         }
 
         private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
