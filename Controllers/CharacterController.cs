@@ -6,9 +6,11 @@ using System.Linq;
 using EFwebapi.Services.CharacterService;
 using System.Threading.Tasks;
 using EFwebapi.Dtos.Character;
+using Microsoft.AspNetCore.Authorization;
 
 namespace EFwebapi.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("[controller]")]
     public class CharacterController : ControllerBase
