@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using System.Reflection.PortableExecutable;
 using System.Collections.Generic;
 using EFwebapi.Models;
@@ -6,9 +7,11 @@ using System.Linq;
 using EFwebapi.Services.CharacterService;
 using System.Threading.Tasks;
 using EFwebapi.Dtos.Character;
+using Microsoft.AspNetCore.Authorization;
 
 namespace EFwebapi.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("[controller]")]
     public class CharacterController : ControllerBase
@@ -23,7 +26,8 @@ namespace EFwebapi.Controllers
         [HttpGet("GetAll")]
         public async Task<IActionResult> Get()
         {
-            return Ok(await _characterService.GetAllCharacters());
+            int userId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value);
+            return Ok(await _characterService.GetAllCharacters(userId));
         }
 
         [HttpGet("{id}")]
