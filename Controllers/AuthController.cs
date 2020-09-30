@@ -30,7 +30,7 @@ namespace EFwebapi.Controllers
             return Ok(response);
         }
 
-        [HttpGet("Login")]
+        [HttpPost("Login")]
         public async Task<IActionResult> Login(UserLoginDto request)
         {
             ServiceResponse<string> response = await _authRepo.Login(
